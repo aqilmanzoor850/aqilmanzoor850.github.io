@@ -4,7 +4,7 @@
     "details": [
       {
         "appIDs": [
-          "REPLACE_WITH_TEAM_ID.com.anonymous.scbb"
+          "X885QZFU26.com.anonymous.scbb"
         ],
         "components": [
           {
@@ -21,7 +21,7 @@
   },
   "webcredentials": {
     "apps": [
-      "REPLACE_WITH_TEAM_ID.com.anonymous.scbb"
+      "X885QZFU26.com.anonymous.scbb"
     ]
   }
 }
