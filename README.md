@@ -1,42 +1,26 @@
-# oc-mobile-config
+# aqilmanzoor850.github.io
 
-Public configuration files for the OC mobile apps. Hosted as GitHub raw URLs
-so the apps can fetch the latest values without shipping a new build.
+Hosting for Universal Links / App Links assets used by the OC mobile apps.
 
-## `version-policy.json` — minimum-version gate
+| File | URL | Purpose |
+|------|-----|---------|
+| `.well-known/apple-app-site-association` | https://aqilmanzoor850.github.io/.well-known/apple-app-site-association | iOS Universal Links — declares which app paths this domain hands off to. |
+| `.well-known/assetlinks.json` | https://aqilmanzoor850.github.io/.well-known/assetlinks.json | Android App Links — declares which package + signing certificate this domain hands off to. |
+| `.nojekyll` | (none) | Tells GitHub Pages NOT to run Jekyll, so the `.well-known/` folder (which starts with a dot) is served. |
+| `index.html` | https://aqilmanzoor850.github.io/ | Empty placeholder so the root URL does not 404. |
 
-The mobile app fetches this file on every cold start and after each
-foreground transition. If the user's installed version is below
-`minimumVersion`, the **forced-update modal** is shown until they update.
+## Used by
 
-### Schema
+- App: `com.anonymous.scbb` (OC Onboarding mobile)
+- Singpass redirect URL registered in dev portal: `https://aqilmanzoor850.github.io/singpass/callback`
+- Corppass redirect URL registered in dev portal: `https://aqilmanzoor850.github.io/corppass/callback`
 
-```json
-{
-  "minimumVersion": "1.1.25",
-  "message": "Please update OC Onboarding to continue.",
-  "iosStoreUrl": "https://apps.apple.com/app/oc-kyc/id6751334930",
-  "androidStoreUrl": "https://play.google.com/store/apps/details?id=com.anonymous.scbb"
-}
-```
+## Updating the AASA / assetlinks
 
-| Field | Required | Description |
-|-------|----------|-------------|
-| `minimumVersion` | ✅ | Lowest version that's allowed to keep using the app. Bump after each release. |
-| `message` | ❌ | Body text in the forced-update modal. |
-| `iosStoreUrl` | ❌ | App Store deep link for the "Open App Store" button. |
-| `androidStoreUrl` | ❌ | Play Store deep link for the "Open Play Store" button. |
+If you rotate the Android keystore, regenerate the SHA-256 with:
 
-### How to release a new version
+    keytool -list -v -keystore android/app/release.jks -storepass <password>
 
-1. Push the new build to App Store + Play Store as usual.
-2. Edit `version-policy.json` here and bump `minimumVersion`.
-3. Commit + push. Within ~5 minutes (GitHub raw cache TTL — the app
-   cache-busts so most users see it within seconds of a cold start),
-   every user on the previous version sees the forced-update modal.
+...and paste the new value into `.well-known/assetlinks.json`.
 
-### Public URL the app uses
-
-```
-https://raw.githubusercontent.com/<your-github-username>/oc-mobile-config/main/version-policy.json
-```
+If you change Apple Team ID, update `.well-known/apple-app-site-association`.
