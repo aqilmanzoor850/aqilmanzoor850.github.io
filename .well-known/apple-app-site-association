@@ -8,12 +8,12 @@
         ],
         "components": [
           {
-            "/": "/singpass/*",
-            "comment": "Universal Link for Singpass redirect"
+            "/": "/auth/individual/*",
+            "comment": "Universal Link for individual identity provider redirect"
           },
           {
-            "/": "/corppass/*",
-            "comment": "Universal Link for Corppass redirect"
+            "/": "/auth/corporate/*",
+            "comment": "Universal Link for corporate identity provider redirect"
           }
         ]
       }
