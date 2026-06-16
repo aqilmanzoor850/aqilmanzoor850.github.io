@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Returning to app…</title>
+  <style>
+    body { font-family: -apple-system, sans-serif; display: flex; align-items: center;
+           justify-content: center; height: 100vh; margin: 0; background: #f5f5f5; }
+    .card { background: #fff; border-radius: 12px; padding: 32px 40px; text-align: center;
+            box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+    h2 { color: #1a1a1a; margin: 0 0 8px; }
+    p  { color: #666; margin: 0; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Returning to app…</h2>
+    <p>You can close this page if it does not close automatically.</p>
+  </div>
+  <script>
+    // iOS Universal Link / Android App Link intercepts this URL before the page loads.
+    // This JS block is a safety-net for browsers where deep-linking is not active.
+    (function () {
+      var qs = window.location.search; // ?code=xxx&state=xxx
+      // Try custom URI scheme as fallback
+      setTimeout(function () {
+        window.location.href = "oneconstellationapp:///Home" + qs;
+      }, 500);
+    })();
+  </script>
+</body>
+</html>
