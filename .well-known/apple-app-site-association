@@ -3,9 +3,25 @@
     "apps": [],
     "details": [
       {
-        "appID": "REPLACE_WITH_APPLE_TEAM_ID.com.anonymous.scbb",
-        "paths": ["/auth/individual/*", "/auth/corporate/*"]
+        "appIDs": [
+          "X885QZFU26.com.anonymous.scbb"
+        ],
+        "components": [
+          {
+            "/": "/auth/individual/*",
+            "comment": "Universal Link for individual identity provider redirect"
+          },
+          {
+            "/": "/auth/corporate/*",
+            "comment": "Universal Link for corporate identity provider redirect"
+          }
+        ]
       }
+    ]
+  },
+  "webcredentials": {
+    "apps": [
+      "X885QZFU26.com.anonymous.scbb"
     ]
   }
 }
