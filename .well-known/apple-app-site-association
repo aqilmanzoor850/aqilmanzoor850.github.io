@@ -4,7 +4,8 @@
     "details": [
       {
         "appIDs": [
-          "X885QZFU26.com.anonymous.scbb"
+          "X885QZFU26.com.anonymous.scbb",
+          "X885QZFU26.com.anonymous.oconboardingapp"
         ],
         "components": [
           {
@@ -21,7 +22,8 @@
   },
   "webcredentials": {
     "apps": [
-      "X885QZFU26.com.anonymous.scbb"
+      "X885QZFU26.com.anonymous.scbb",
+      "X885QZFU26.com.anonymous.oconboardingapp"
     ]
   }
 }
