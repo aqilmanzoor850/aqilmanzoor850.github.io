@@ -11,5 +11,17 @@
         "F2:73:40:93:0B:3C:66:D4:56:1F:1A:67:CC:D8:CE:30:38:95:8E:50:2B:02:52:3E:7E:47:FF:D9:91:74:10:1F"
       ]
     }
+  },
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.anonymous.oconboardingapp",
+      "sha256_cert_fingerprints": [
+        "22:CC:DF:84:97:5A:68:A8:6F:12:A1:20:E0:92:1A:6F:51:75:0D:51:6F:90:A7:5A:85:93:36:A7:56:B5:3B:C7"
+      ]
+    }
   }
 ]
