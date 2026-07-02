@@ -7,7 +7,8 @@
       "namespace": "android_app",
       "package_name": "com.anonymous.scbb",
       "sha256_cert_fingerprints": [
-        "9A:B7:A8:5E:4C:86:1B:25:52:34:90:24:B7:99:66:C7:26:A6:2C:7E:E6:75:FE:0C:57:E6:41:31:46:F8:C2:0E"
+        "9A:B7:A8:5E:4C:86:1B:25:52:34:90:24:B7:99:66:C7:26:A6:2C:7E:E6:75:FE:0C:57:E6:41:31:46:F8:C2:0E",
+        "F2:73:40:93:0B:3C:66:D4:56:1F:1A:67:CC:D8:CE:30:38:95:8E:50:2B:02:52:3E:7E:47:FF:D9:91:74:10:1F"
       ]
     }
   }
