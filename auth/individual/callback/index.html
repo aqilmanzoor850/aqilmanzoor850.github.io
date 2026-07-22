@@ -30,12 +30,12 @@
       var qs = window.location.search; // ?code=xxx&state=xxx
 
       setTimeout(function () {
-        window.location.href = "oconboardingapp://auth/individual/callback" + qs;
+        window.location.href = "oconboardingapp:///Home" + qs;
       }, 500);
 
       setTimeout(function () {
         if (document.visibilityState === "hidden") return;
-        window.location.href = "oneconstellationapp://auth/individual/callback" + qs;
+        window.location.href = "oneconstellationapp:///Home" + qs;
       }, 1500);
     })();
   </script>
