@@ -21,12 +21,22 @@
   <script>
     // iOS Universal Link / Android App Link intercepts this URL before the page loads.
     // This JS block is a safety-net for browsers where deep-linking is not active.
+    // Two apps share this callback URL (the redirect_uri registered with the
+    // identity provider is fixed), so we can't know in advance which one is
+    // installed — try each app's custom scheme in turn. If the first attempt
+    // opens an app, this tab is backgrounded; the visibilityState check stops
+    // the second attempt from firing on top of it and stealing focus back.
     (function () {
       var qs = window.location.search; // ?code=xxx&state=xxx
-      // Try custom URI scheme as fallback
+
       setTimeout(function () {
-        window.location.href = "oneconstellationapp:///Home" + qs;
+        window.location.href = "oconboardingapp://auth/individual/callback" + qs;
       }, 500);
+
+      setTimeout(function () {
+        if (document.visibilityState === "hidden") return;
+        window.location.href = "oneconstellationapp://auth/individual/callback" + qs;
+      }, 1500);
     })();
   </script>
 </body>
