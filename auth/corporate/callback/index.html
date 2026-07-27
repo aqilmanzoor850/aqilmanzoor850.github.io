@@ -8,49 +8,46 @@
     body { font-family: -apple-system, sans-serif; display: flex; align-items: center;
            justify-content: center; height: 100vh; margin: 0; background: #f5f5f5; }
     .card { background: #fff; border-radius: 12px; padding: 32px 40px; text-align: center;
-            box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+            box-shadow: 0 2px 12px rgba(0,0,0,.08); min-width: 260px; }
     h2 { color: #1a1a1a; margin: 0 0 8px; }
-    p  { color: #666; margin: 0; font-size: 14px; }
+    p  { color: #666; margin: 0 0 4px; font-size: 14px; }
+    .app-btn { display: block; margin: 10px 0; padding: 14px 20px; border-radius: 8px;
+               background: #1a1a1a; color: #fff; text-decoration: none; font-size: 15px;
+               font-weight: 600; }
   </style>
 </head>
 <body>
-  <div class="card">
+  <div class="card" id="card">
     <h2>Returning to app…</h2>
     <p>You can close this page if it does not close automatically.</p>
+  </div>
+  <div class="card" id="chooser" style="display:none;">
+    <h2>Continue in your app</h2>
+    <p style="margin-bottom:16px;">Tap the app you used to sign in.</p>
+    <a id="btn-oconboardingapp" class="app-btn">OC Onboarding+</a>
+    <a id="btn-oneconstellationapp" class="app-btn">OC Onboarding</a>
   </div>
   <script>
     // iOS Universal Link / Android App Link intercepts this URL before the page loads.
     // This JS block is a safety-net for browsers where deep-linking is not active.
+    //
     // Two apps share this callback URL (the redirect_uri registered with the
-    // identity provider is fixed). Each app stamps its own scheme into the
-    // `state` param before starting the flow (state is a pure CSRF token the
-    // provider only ever echoes back, never validates), so we can read that
-    // stamp here and open the correct app directly — no guessing, no race.
+    // identity provider is fixed), so this page has no reliable way to know
+    // which app actually started the flow — no browser API exposes "which
+    // native app opened this tab", and the URL itself carries no such marker.
+    // Rather than guess with a timed race (which always favors whichever
+    // scheme is tried first when both apps are installed), show a manual
+    // chooser so the redirect is always correct instead of a coin flip.
     (function () {
-      var qs = window.location.search; // ?code=xxx&state=xxx...::app::<scheme>
-      var params = new URLSearchParams(qs);
-      var state = params.get("state") || "";
-      var marker = "::app::";
-      var idx = state.indexOf(marker);
-      var targetScheme = idx !== -1 ? state.slice(idx + marker.length) : null;
+      var qs = window.location.search; // ?code=xxx&state=xxx
 
-      if (targetScheme) {
-        window.location.href = targetScheme + "://auth/corporate/callback" + qs;
-        return;
-      }
+      document.getElementById("btn-oconboardingapp").href =
+        "oconboardingapp://auth/corporate/callback" + qs;
+      document.getElementById("btn-oneconstellationapp").href =
+        "oneconstellationapp://auth/corporate/callback" + qs;
 
-      // No stamp (older in-flight session from before this fix) — fall back
-      // to trying each app's scheme in turn. If the first attempt opens an
-      // app, this tab is backgrounded; the visibilityState check stops the
-      // second attempt from firing on top of it and stealing focus back.
-      setTimeout(function () {
-        window.location.href = "oconboardingapp://auth/corporate/callback" + qs;
-      }, 500);
-
-      setTimeout(function () {
-        if (document.visibilityState === "hidden") return;
-        window.location.href = "oneconstellationapp://auth/corporate/callback" + qs;
-      }, 1500);
+      document.getElementById("card").style.display = "none";
+      document.getElementById("chooser").style.display = "block";
     })();
   </script>
 </body>
