@@ -32,19 +32,24 @@
     // This JS block is a safety-net for browsers where deep-linking is not active.
     //
     // Two apps share this callback URL (the redirect_uri registered with the
-    // identity provider is fixed). Each app stamps its own scheme into the
-    // `state` param before starting the flow (state is a pure CSRF token the
-    // provider only ever echoes back, never validates), so we read that stamp
-    // here and open the correct app directly. If no stamp is present (an
-    // older in-flight session, or something went wrong client-side), fall
-    // back to a manual chooser instead of guessing with a timed race.
+    // identity provider is fixed). Each app stamps its own scheme onto the
+    // end of the `state` param before starting the flow (state is a pure
+    // CSRF token the provider only ever echoes back, never validates) — no
+    // separator characters, since FAPI/gov OAuth profiles can sanitize or
+    // reject unusual characters in state. We read that stamp here and open
+    // the correct app directly. If no stamp is present (an older in-flight
+    // session, or something went wrong client-side), fall back to a manual
+    // chooser instead of guessing with a timed race.
     (function () {
-      var qs = window.location.search; // ?code=xxx&state=xxx::app::<scheme>
+      var qs = window.location.search; // ?code=xxx&state=xxx<scheme>
       var params = new URLSearchParams(qs);
       var state = params.get("state") || "";
-      var marker = "::app::";
-      var idx = state.indexOf(marker);
-      var targetScheme = idx !== -1 ? state.slice(idx + marker.length) : null;
+      var targetScheme = null;
+      if (state.indexOf("oconboardingapp") !== -1) {
+        targetScheme = "oconboardingapp";
+      } else if (state.indexOf("oneconstellationapp") !== -1) {
+        targetScheme = "oneconstellationapp";
+      }
 
       if (targetScheme) {
         window.location.href = targetScheme + "://auth/individual/callback" + qs;
